@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bearysad · Tienda</title>
+  <meta name="description" content="Bearysad — marca chilena de streetwear. Catálogo, tallas y Beary Icons.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="marquee"><div>
+    NUEVA COLECCIÓN DISPONIBLE ✦ ENVÍOS A TODO CHILE ✦ BEARY ICONS ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦
+    NUEVA COLECCIÓN DISPONIBLE ✦ ENVÍOS A TODO CHILE ✦ BEARY ICONS ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦&nbsp;
+  </div></div>
+
+  <header class="top"><div class="wrap">
+    <a class="brand" href="#"><img src="https://bearysad.com/cdn/shop/files/3dgifmaker58118.gif?height=100&v=1765331520" alt="">BEARYSAD</a>
+    <nav class="nav"><a href="#tienda">Tienda</a><a href="#icons">Beary Icons</a><a href="#lookbook">Lookbook</a><a href="#marca">La marca</a></nav>
+    <div style="display:flex;gap:16px;align-items:center">
+      <a class="back" href="../../">← Portafolio</a>
+      <button class="cart-btn">Carrito <span class="cart-count">0</span></button>
+    </div>
+  </div></header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="kicker">Streetwear · Chile</p>
+      <h1 class="display">Beary<br><span class="outline">Sad</span><span class="y">.</span></h1>
+      <p>Camuflado, jerseys oversize y gorros trucker. Ropa hecha para la escena urbana y vestida por artistas que la definen.</p>
+      <div class="ctas"><a class="btn" href="#tienda">Ver productos →</a><a class="btn ghost" href="#icons">Beary Icons</a></div>
+    </div>
+    <div class="hero-imgs">
+      <img src="https://bearysad.com/cdn/shop/files/IMG_6656.jpg?v=1794150648&width=1200" alt="Modelo usando Bearysad">
+      <img src="https://bearysad.com/cdn/shop/files/IMG_6909.jpg?v=1794150567&width=1200" alt="Nueva colección Bearysad">
+    </div>
+  </section>
+
+  <section class="block" id="tienda"><div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="kicker">Colección</p><h2 class="display">Tienda</h2></div>
+      <p>Elige una prenda para ver sus fotos, la descripción y seleccionar tu talla.</p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="products" id="products"></div>
+  </div></section>
+
+  <section class="block" id="icons"><div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="kicker">Estrellas que vistieron la marca</p><h2 class="display">Beary Icons</h2></div>
+      <p>Artistas de la música urbana que han llevado Bearysad. Entra a cada uno para ver su página y el fit que lo representa.</p>
+    </div>
+    <div class="icons" id="icons-grid"></div>
+  </div></section>
+
+  <section class="block" id="lookbook"><div class="wrap">
+    <div class="sec-head reveal">
+      <div><p class="kicker">Comunidad</p><h2 class="display">Lookbook</h2></div>
+      <p>Camuflado, el 24 y mucho layering: así se lleva Bearysad en la calle y en el escenario.</p>
+    </div>
+    <div class="lookbook" id="lookbook-grid"></div>
+  </div></section>
+
+  <section class="block" id="marca"><div class="wrap about">
+    <blockquote class="reveal">Tu nueva marca favorita <span>alrededor del mundo.</span></blockquote>
+    <div class="reveal">
+      <p>Bearysad nace en Chile con un oso triste como emblema y una idea clara: ropa urbana con identidad propia, pensada para quienes viven la música.</p>
+      <p>En 2025 la marca fue vestida por artistas de la escena urbana y para 2026 prepara nuevas colecciones y colaboraciones.</p>
+      <a class="btn ghost" href="https://www.instagram.com/beaarysad/" target="_blank" rel="noopener">@beaarysad en Instagram</a>
+    </div>
+  </div></section>
+
+  <div class="big-word">Bearysad</div>
+  <footer class="foot"><div class="wrap">
+    <span>Proyecto de portafolio · Contenido e imágenes © Bearysad</span>
+    <span><a href="https://bearysad.com" target="_blank" rel="noopener">bearysad.com</a> · <a href="https://www.instagram.com/beaarysad/" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.tiktok.com/@beaarysad" target="_blank" rel="noopener">TikTok</a></span>
+  </div></footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    let current = 'todo';
+    function renderProducts() {
+      const list = current === 'todo' ? PRODUCTS : PRODUCTS.filter(p => p.cat === current);
+      $('#products').innerHTML = list.map(productCard).join('');
+      $('#filters').innerHTML = CATEGORIES.map(c => `<button class="chip ${c.id === current ? 'active' : ''}" data-cat="${c.id}">${c.label}</button>`).join('');
+      observeReveals();
+    }
+    $('#filters').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (b) { current = b.dataset.cat; renderProducts(); } });
+    renderProducts();
+
+    $('#icons-grid').innerHTML = ICONS.map(i => `
+      <a class="icon-card reveal" href="icono.html?id=${i.id}" style="--c:${i.theme.accent}">
+        <img src="${i.image}" alt="${i.name} vistiendo Bearysad" loading="lazy">
+        <div class="label"><span>Beary Icon</span><h3 class="display">${i.name}</h3></div>
+      </a>`).join('');
+
+    $('#lookbook-grid').innerHTML = LOOKBOOK.map(src => `<img class="reveal" src="${src}" alt="Look Bearysad" loading="lazy">`).join('');
+    observeReveals();
+  </script>
+</body>
+</html>

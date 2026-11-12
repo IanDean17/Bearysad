@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portafolio · IanDean17</title>
+  <meta name="description" content="Portafolio de proyectos web inspirados en moda y cultura urbana.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0c0c0c; --fg:#f2f0ea; --muted:#8b8a85; --line:#262626; --accent:#f5c518; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--bg); color:var(--fg); font-family:'Space Grotesk',system-ui,sans-serif; min-height:100vh; }
+    a { color:inherit; text-decoration:none; }
+    .wrap { max-width:1200px; margin:0 auto; padding:0 24px; }
+    header { padding:28px 0; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); }
+    .logo { font-family:Anton; font-size:22px; letter-spacing:.04em; }
+    .logo span { color:var(--accent); }
+    nav a { color:var(--muted); margin-left:24px; font-size:14px; }
+    nav a:hover { color:var(--fg); }
+    .hero { padding:96px 0 72px; }
+    .eyebrow { color:var(--accent); font-size:13px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:20px; }
+    h1 { font-family:Anton; font-weight:400; font-size:clamp(48px,10vw,128px); line-height:.92; text-transform:uppercase; }
+    h1 em { font-style:normal; -webkit-text-stroke:2px var(--fg); color:transparent; }
+    .lead { max-width:560px; color:var(--muted); font-size:18px; line-height:1.6; margin-top:28px; }
+    .section-title { display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid var(--line); padding:24px 0; }
+    .section-title h2 { font-family:Anton; font-weight:400; font-size:28px; text-transform:uppercase; }
+    .section-title span { color:var(--muted); font-size:14px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:24px; padding-bottom:96px; }
+    .card { border:1px solid var(--line); border-radius:4px; overflow:hidden; display:flex; flex-direction:column; transition:border-color .2s, transform .2s; }
+    .card:hover { border-color:var(--accent); transform:translateY(-4px); }
+    .card .thumb { aspect-ratio:4/3; background:#1a1a1a center/cover; position:relative; }
+    .card .num { position:absolute; top:14px; left:14px; font-family:Anton; font-size:14px; background:var(--accent); color:#000; padding:4px 8px; }
+    .card .body { padding:20px; display:flex; flex-direction:column; gap:10px; flex:1; }
+    .card h3 { font-family:Anton; font-weight:400; font-size:26px; text-transform:uppercase; }
+    .card p { color:var(--muted); font-size:15px; line-height:1.5; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:8px; }
+    .tags span { font-size:12px; border:1px solid var(--line); padding:4px 10px; border-radius:99px; color:var(--muted); }
+    .card.soon { opacity:.45; pointer-events:none; }
+    .card.soon .thumb { display:grid; place-items:center; font-family:Anton; font-size:20px; color:var(--muted); background:repeating-linear-gradient(45deg,#141414 0 12px,#101010 12px 24px); }
+    footer { border-top:1px solid var(--line); padding:28px 0; color:var(--muted); font-size:13px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="logo" href="./">IAN<span>.</span>DEAN</a>
+      <nav><a href="#proyectos">Proyectos</a><a href="https://github.com/IanDean17" target="_blank" rel="noopener">GitHub</a></nav>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">Portafolio · Desarrollo web</p>
+      <h1>Moda, cultura<br><em>y código</em></h1>
+      <p class="lead">Una colección de proyectos web construidos alrededor de lo que me mueve: la ropa, el streetwear y la música. Cada proyecto es una página independiente.</p>
+    </section>
+
+    <div class="section-title" id="proyectos"><h2>Proyectos</h2><span>01 — en curso</span></div>
+    <div class="grid">
+      <a class="card" href="proyectos/bearysad/">
+        <div class="thumb" style="background-image:url('https://cdn.shopify.com/s/files/1/0729/1017/6303/files/IMG_6915.jpg?width=900')"><span class="num">01</span></div>
+        <div class="body">
+          <h3>Bearysad</h3>
+          <p>Tienda de ropa para la marca chilena Bearysad: catálogo, selección de talla, carrito y una sección de “Beary Icons” con una página propia para cada artista.</p>
+          <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>E-commerce</span></div>
+        </div>
+      </a>
+      <div class="card soon">
+        <div class="thumb">PRÓXIMAMENTE</div>
+        <div class="body"><h3>Proyecto 02</h3><p>Siguiente proyecto del portafolio.</p></div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="wrap">© 2026 · Hecho con HTML, CSS y JS</div></footer>
+</body>
+</html>

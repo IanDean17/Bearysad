@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beary Icon · Bearysad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="icon-page">
+  <header class="top"><div class="wrap">
+    <a class="brand" href="index.html"><img src="https://bearysad.com/cdn/shop/files/3dgifmaker58118.gif?height=100&v=1765331520" alt="">BEARYSAD</a>
+    <nav class="nav"><a href="index.html#tienda">Tienda</a><a href="index.html#icons">Beary Icons</a></nav>
+    <button class="cart-btn">Carrito <span class="cart-count">0</span></button>
+  </div></header>
+
+  <main id="icon"></main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get('id');
+    const idx = Math.max(0, ICONS.findIndex(i => i.id === id));
+    const icon = ICONS[idx];
+    const prev = ICONS[(idx - 1 + ICONS.length) % ICONS.length];
+    const next = ICONS[(idx + 1) % ICONS.length];
+
+    document.title = `${icon.name} · Beary Icons`;
+    document.body.style.setProperty('--icon-accent', icon.theme.accent);
+    document.body.style.setProperty('--icon-bg', icon.theme.bg);
+
+    $('#icon').innerHTML = `
+      <section class="icon-hero">
+        <div class="bg-name">${icon.name}</div>
+        <div class="photo"><img src="${icon.image}" alt="${icon.name} vistiendo Bearysad"></div>
+        <div class="info reveal">
+          <span class="tag">Beary Icon · ${String(idx + 1).padStart(2, '0')}/${String(ICONS.length).padStart(2, '0')}</span>
+          <h1 class="display">${icon.name}</h1>
+          <span class="handle">${icon.tagline}</span>
+          <p>${icon.bio}</p>
+          <div class="ctas"><a class="btn" href="#fit">Comprar el fit →</a><a class="btn ghost" href="index.html#icons">Todos los íconos</a></div>
+        </div>
+      </section>
+      <section class="block" id="fit"><div class="wrap">
+        <div class="sec-head reveal">
+          <div><p class="kicker">Inspirado en ${icon.name}</p><h2 class="display">El fit</h2></div>
+          <p>Piezas de la colección actual seleccionadas para recrear el estilo de ${icon.name}.</p>
+        </div>
+        <div class="products">${icon.fit.map(byId).filter(Boolean).map(productCard).join('')}</div>
+        <nav class="icon-nav">
+          <a href="icono.html?id=${prev.id}"><span>← Anterior</span><strong>${prev.name}</strong></a>
+          <a class="next" href="icono.html?id=${next.id}"><span>Siguiente →</span><strong>${next.name}</strong></a>
+        </nav>
+      </div></section>`;
+    observeReveals();
+  </script>
+</body>
+</html>
