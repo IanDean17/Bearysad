@@ -11,8 +11,8 @@
 <body class="icon-page">
   <header class="top"><div class="wrap">
     <a class="brand" href="index.html"><img src="https://bearysad.com/cdn/shop/files/3dgifmaker58118.gif?height=100&v=1765331520" alt="">BEARYSAD</a>
-    <nav class="nav"><a href="index.html#tienda">Tienda</a><a href="index.html#icons">Beary Icons</a></nav>
-    <button class="cart-btn">Carrito <span class="cart-count">0</span></button>
+    <nav class="nav"><a href="index.html#tienda">Tienda</a><a href="index.html#icons">Beary Icons</a><a href="#fit">El fit</a></nav>
+    <button class="cart-btn" aria-label="Abrir carrito">Carrito <span class="cart-count">0</span></button>
   </div></header>
 
   <main id="icon"></main>
@@ -25,6 +25,8 @@
     const icon = ICONS[idx];
     const prev = ICONS[(idx - 1 + ICONS.length) % ICONS.length];
     const next = ICONS[(idx + 1) % ICONS.length];
+    const fit = icon.fit.map(byId).filter(Boolean);
+    const picks = Object.fromEntries(fit.map(p => [p.id, p.sizes.length === 1 ? p.sizes[0] : null]));
 
     document.title = `${icon.name} · Beary Icons`;
     document.body.style.setProperty('--icon-accent', icon.theme.accent);
@@ -33,26 +35,63 @@
     $('#icon').innerHTML = `
       <section class="icon-hero">
         <div class="bg-name">${icon.name}</div>
-        <div class="photo"><img src="${icon.image}" alt="${icon.name} vistiendo Bearysad"></div>
-        <div class="info reveal">
+        <div class="photo">
+          <img src="${icon.image}" alt="${icon.name} vistiendo Bearysad">
+          <img class="dancer" src="${BEAR_GIF}" alt="">
+        </div>
+        <div class="info">
           <span class="tag">Beary Icon · ${String(idx + 1).padStart(2, '0')}/${String(ICONS.length).padStart(2, '0')}</span>
           <h1 class="display">${icon.name}</h1>
           <span class="handle">${icon.tagline}</span>
-          <p>${icon.bio}</p>
-          <div class="ctas"><a class="btn" href="#fit">Comprar el fit →</a><a class="btn ghost" href="index.html#icons">Todos los íconos</a></div>
+          <div id="player"></div>
+          <div class="ctas"><a class="btn" href="#fit">Comprar el fit →</a><a class="btn ghost" href="#quien">¿Quién es?</a></div>
         </div>
       </section>
+
+      <section class="block" id="quien"><div class="wrap who-grid">
+        <div class="reveal"><p class="kicker">¿Quién es?</p><h2 class="display">${icon.name}</h2>
+          <p class="meta-line">${icon.origin} · ${icon.genre} · <a href="https://www.instagram.com/${icon.handle}/" target="_blank" rel="noopener">@${icon.handle}</a></p></div>
+        <div class="reveal">${icon.bio.map(p => `<p class="lead-p">${p}</p>`).join('')}
+          <dl class="facts">${icon.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl></div>
+      </div></section>
+
       <section class="block" id="fit"><div class="wrap">
         <div class="sec-head reveal">
-          <div><p class="kicker">Inspirado en ${icon.name}</p><h2 class="display">El fit</h2></div>
-          <p>Piezas de la colección actual seleccionadas para recrear el estilo de ${icon.name}.</p>
+          <div><p class="kicker">Inspirado en ${icon.name}</p><h2 class="display">Arma el fit</h2></div>
+          <p>Elige la talla de cada pieza y agrega el fit completo de una vez. Usa el código <b>ICONS15</b> en el carrito.</p>
         </div>
-        <div class="products">${icon.fit.map(byId).filter(Boolean).map(productCard).join('')}</div>
+        <div class="bundle reveal" id="bundle"></div>
         <nav class="icon-nav">
           <a href="icono.html?id=${prev.id}"><span>← Anterior</span><strong>${prev.name}</strong></a>
           <a class="next" href="icono.html?id=${next.id}"><span>Siguiente →</span><strong>${next.name}</strong></a>
         </nav>
       </div></section>`;
+
+    function renderBundle() {
+      const total = fit.reduce((a, p) => a + p.price, 0);
+      const ready = fit.every(p => picks[p.id]);
+      $('#bundle').innerHTML = `
+        <div class="b-items">${fit.map((p, k) => `
+          <div class="b-item">
+            <button class="ph product" data-id="${p.id}" aria-label="Ver ${p.name}"><img src="${img(p.images[0], 600)}" alt="${p.name}" loading="lazy"><span class="b-n">${k + 1}</span></button>
+            <div class="b-meta"><strong>${p.name}</strong><span>${clp(p.price)}</span></div>
+            <div class="opts sm">${p.sizes.map(s => `<button class="opt ${picks[p.id] === s ? 'active' : ''}" data-pick="${p.id}|${s}">${s}</button>`).join('')}</div>
+          </div>`).join('<span class="plus">+</span>')}</div>
+        <div class="b-buy">
+          <div><span class="small">Fit completo · ${fit.length} piezas</span><strong>${clp(total)}</strong></div>
+          <button class="btn add" id="add-fit" ${ready ? '' : 'disabled'}>${ready ? 'Agregar el fit completo' : 'Elige las tallas'}</button>
+        </div>`;
+    }
+    $('#bundle').addEventListener('click', e => {
+      const b = e.target.closest('[data-pick]');
+      if (b) { const [pid, s] = b.dataset.pick.split('|'); picks[pid] = s; return renderBundle(); }
+      if (e.target.closest('#add-fit')) {
+        fit.forEach(p => addToCart(p.id, picks[p.id], p.colors?.[0], 1, true));
+        toast(`Fit de ${icon.name} agregado ✓`); openCart();
+      }
+    });
+    renderBundle();
+    Player.mount($('#player'), icon);
     observeReveals();
   </script>
 </body>

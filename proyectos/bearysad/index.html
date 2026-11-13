@@ -4,55 +4,72 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bearysad · Tienda</title>
-  <meta name="description" content="Bearysad — marca chilena de streetwear. Catálogo, tallas y Beary Icons.">
+  <meta name="description" content="Bearysad — marca chilena de streetwear. Catálogo, tallas, carrito y Beary Icons.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="marquee"><div>
-    NUEVA COLECCIÓN DISPONIBLE ✦ ENVÍOS A TODO CHILE ✦ BEARY ICONS ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦
-    NUEVA COLECCIÓN DISPONIBLE ✦ ENVÍOS A TODO CHILE ✦ BEARY ICONS ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦&nbsp;
+    NUEVA COLECCIÓN SUMMERTIME &amp; ICECREAM ✦ ENVÍO GRATIS SOBRE $50.000 ✦ BEARY ICONS ✦ CÓDIGO BEARY10 ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦
+    NUEVA COLECCIÓN SUMMERTIME &amp; ICECREAM ✦ ENVÍO GRATIS SOBRE $50.000 ✦ BEARY ICONS ✦ CÓDIGO BEARY10 ✦ TU NUEVA MARCA FAVORITA ALREDEDOR DEL MUNDO ✦&nbsp;
   </div></div>
 
   <header class="top"><div class="wrap">
     <a class="brand" href="#"><img src="https://bearysad.com/cdn/shop/files/3dgifmaker58118.gif?height=100&v=1765331520" alt="">BEARYSAD</a>
-    <nav class="nav"><a href="#tienda">Tienda</a><a href="#icons">Beary Icons</a><a href="#lookbook">Lookbook</a><a href="#marca">La marca</a></nav>
-    <div style="display:flex;gap:16px;align-items:center">
+    <nav class="nav"><a href="#tienda">Tienda</a><a href="#icons">Beary Icons</a><a href="#campana">Campaña</a><a href="#marca">La marca</a></nav>
+    <div class="top-actions">
       <a class="back" href="../../">← Portafolio</a>
-      <button class="cart-btn">Carrito <span class="cart-count">0</span></button>
+      <button class="cart-btn" aria-label="Abrir carrito">Carrito <span class="cart-count">0</span></button>
     </div>
   </div></header>
 
   <section class="hero">
     <div class="hero-copy">
-      <p class="kicker">Streetwear · Chile</p>
+      <p class="kicker">Nueva colección · Summertime &amp; Icecream</p>
       <h1 class="display">Beary<br><span class="outline">Sad</span><span class="y">.</span></h1>
-      <p>Camuflado, jerseys oversize y gorros trucker. Ropa hecha para la escena urbana y vestida por artistas que la definen.</p>
-      <div class="ctas"><a class="btn" href="#tienda">Ver productos →</a><a class="btn ghost" href="#icons">Beary Icons</a></div>
+      <p>Camuflado, jerseys oversize y gorros trucker. Ropa hecha en Chile para la escena urbana y vestida por los artistas que la definen.</p>
+      <div class="ctas"><a class="btn" href="#tienda">Ver productos →</a><a class="btn ghost" href="#icons">▶ Beary Icons</a></div>
     </div>
     <div class="hero-imgs">
-      <img src="https://bearysad.com/cdn/shop/files/IMG_6656.jpg?v=1794150648&width=1200" alt="Modelo usando Bearysad">
-      <img src="https://bearysad.com/cdn/shop/files/IMG_6909.jpg?v=1794150567&width=1200" alt="Nueva colección Bearysad">
+      <img src="assets/campaign/6737.jpg" alt="Modelo con Multicamo Longsleeve frente a un kiosco">
+      <img src="assets/campaign/6865.jpg" alt="Modelo con polera Raven y cadena">
+      <img class="hero-bear" src="assets/bear.webp" alt="">
     </div>
   </section>
 
   <section class="block" id="tienda"><div class="wrap">
     <div class="sec-head reveal">
       <div><p class="kicker">Colección</p><h2 class="display">Tienda</h2></div>
-      <p>Elige una prenda para ver sus fotos, la descripción y seleccionar tu talla.</p>
+      <p>Elige una prenda para ver sus fotos, seleccionar talla y cantidad. Envío gratis sobre $50.000.</p>
     </div>
     <div class="filters" id="filters"></div>
     <div class="products" id="products"></div>
   </div></section>
 
-  <section class="block" id="icons"><div class="wrap">
-    <div class="sec-head reveal">
-      <div><p class="kicker">Estrellas que vistieron la marca</p><h2 class="display">Beary Icons</h2></div>
-      <p>Artistas de la música urbana que han llevado Bearysad. Entra a cada uno para ver su página y el fit que lo representa.</p>
+  <section class="block icons-stage" id="icons">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><p class="kicker">Estrellas que vistieron la marca</p><h2 class="display">Beary Icons</h2></div>
+        <p>Artistas de la música urbana que han llevado Bearysad. Elige uno, dale play a su canción y arma su fit.</p>
+      </div>
+      <div class="stage">
+        <ol class="roster" id="roster" role="tablist" aria-label="Artistas"></ol>
+        <div class="stage-photo" id="stage-photo"></div>
+        <div class="stage-info" id="stage-info" role="tabpanel"></div>
+      </div>
     </div>
-    <div class="icons" id="icons-grid"></div>
-  </div></section>
+  </section>
+
+  <section class="block" id="campana">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div><p class="kicker">Campaña 2026</p><h2 class="display">Summertime<br>&amp; Icecream</h2></div>
+        <p>Kioscos, persianas y almacenes de barrio: la colección fotografiada donde se usa. Toca una foto para verla completa.</p>
+      </div>
+    </div>
+    <div class="campaign" id="campaign"></div>
+  </section>
 
   <section class="block" id="lookbook"><div class="wrap">
     <div class="sec-head reveal">
@@ -66,7 +83,7 @@
     <blockquote class="reveal">Tu nueva marca favorita <span>alrededor del mundo.</span></blockquote>
     <div class="reveal">
       <p>Bearysad nace en Chile con un oso triste como emblema y una idea clara: ropa urbana con identidad propia, pensada para quienes viven la música.</p>
-      <p>En 2025 la marca fue vestida por artistas de la escena urbana y para 2026 prepara nuevas colecciones y colaboraciones.</p>
+      <p>En 2025 la marca fue vestida por artistas de la escena urbana y para 2026 lanza Summertime &amp; Icecream, su colección más grande hasta ahora.</p>
       <a class="btn ghost" href="https://www.instagram.com/beaarysad/" target="_blank" rel="noopener">@beaarysad en Instagram</a>
     </div>
   </div></section>
@@ -80,23 +97,72 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script>
+    /* Tienda */
     let current = 'todo';
     function renderProducts() {
       const list = current === 'todo' ? PRODUCTS : PRODUCTS.filter(p => p.cat === current);
       $('#products').innerHTML = list.map(productCard).join('');
-      $('#filters').innerHTML = CATEGORIES.map(c => `<button class="chip ${c.id === current ? 'active' : ''}" data-cat="${c.id}">${c.label}</button>`).join('');
+      $('#filters').innerHTML = CATEGORIES.map(c => {
+        const n = c.id === 'todo' ? PRODUCTS.length : PRODUCTS.filter(p => p.cat === c.id).length;
+        return `<button class="chip ${c.id === current ? 'active' : ''}" data-cat="${c.id}">${c.label} <small>${n}</small></button>`;
+      }).join('');
       observeReveals();
     }
     $('#filters').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (b) { current = b.dataset.cat; renderProducts(); } });
     renderProducts();
 
-    $('#icons-grid').innerHTML = ICONS.map(i => `
-      <a class="icon-card reveal" href="icono.html?id=${i.id}" style="--c:${i.theme.accent}">
-        <img src="${i.image}" alt="${i.name} vistiendo Bearysad" loading="lazy">
-        <div class="label"><span>Beary Icon</span><h3 class="display">${i.name}</h3></div>
-      </a>`).join('');
+    /* Beary Icons: escenario interactivo */
+    let active = 0;
+    $('#roster').innerHTML = ICONS.map((i, k) => `
+      <li><button role="tab" data-icon="${k}" style="--c:${i.theme.accent}">
+        <span class="n">${String(k + 1).padStart(2, '0')}</span>
+        <img src="${i.image}" alt="" loading="lazy">
+        <span class="nm display">${i.name}</span><span class="g">${i.genre}</span>
+      </button></li>`).join('');
 
-    $('#lookbook-grid').innerHTML = LOOKBOOK.map(src => `<img class="reveal" src="${src}" alt="Look Bearysad" loading="lazy">`).join('');
+    function showIcon(k, autoplay) {
+      active = k;
+      const i = ICONS[k];
+      const stage = $('#icons');
+      stage.style.setProperty('--c', i.theme.accent);
+      stage.style.setProperty('--stage-bg', i.theme.bg);
+      $$('#roster [data-icon]').forEach(b => b.setAttribute('aria-selected', +b.dataset.icon === k));
+      $('#stage-photo').innerHTML = `
+        <div class="photo-frame">
+          <img class="ph-main" src="${i.image}" alt="${i.name} vistiendo Bearysad">
+          <img class="ph-r" src="${i.image}" alt=""><img class="ph-b" src="${i.image}" alt="">
+          <span class="scan"></span>
+        </div>
+        <div class="bg-name">${i.name}</div>
+        <img class="dancer" src="${BEAR_GIF}" alt="Oso Bearysad bailando">
+        <span class="sticker">Beary Icon<br><b>${String(k + 1).padStart(2, '0')}/${String(ICONS.length).padStart(2, '0')}</b></span>`;
+      $('#stage-info').innerHTML = `
+        <span class="tagchip">${i.tagline}</span>
+        <h3 class="display">${i.name}</h3>
+        <p class="meta-line">${i.origin} · ${i.genre} · <a href="https://www.instagram.com/${i.handle}/" target="_blank" rel="noopener">@${i.handle}</a></p>
+        <p class="who">${i.bio[0]}</p>
+        <dl class="facts">${i.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
+        <div id="stage-player"></div>
+        <div class="fit-peek">${i.fit.map(byId).map(p => `<button class="peek product" data-id="${p.id}" aria-label="${p.name}"><img src="${img(p.images[0], 200)}" alt=""><span>${p.name}<b>${clp(p.price)}</b></span></button>`).join('')}</div>
+        <div class="ctas"><a class="btn" href="icono.html?id=${i.id}">Ver su página y fit →</a></div>`;
+      Player.mount($('#stage-player'), i, autoplay);
+      $('#stage-photo').classList.remove('swap'); void $('#stage-photo').offsetWidth; $('#stage-photo').classList.add('swap');
+    }
+    $('#roster').addEventListener('click', e => { const b = e.target.closest('[data-icon]'); if (b) showIcon(+b.dataset.icon, true); });
+    $('#roster').addEventListener('keydown', e => {
+      if (!/Arrow(Up|Down|Left|Right)/.test(e.key)) return;
+      e.preventDefault();
+      const k = (active + (/(Down|Right)/.test(e.key) ? 1 : -1) + ICONS.length) % ICONS.length;
+      showIcon(k, true); $(`#roster [data-icon="${k}"]`).focus();
+    });
+    showIcon(0, false);
+
+    /* Campaña y lookbook */
+    $('#campaign').innerHTML = CAMPAIGN.map((c, k) => `<button class="shot ${c.src.includes('6898') ? 'wide' : ''}" data-shot="${k}"><img src="${c.src}" alt="Campaña Bearysad: ${c.cap}" loading="lazy"><span>${String(k + 1).padStart(2, '0')} · ${c.cap}</span></button>`).join('');
+    $('#campaign').addEventListener('click', e => { const b = e.target.closest('[data-shot]'); if (b) openLightbox(CAMPAIGN, +b.dataset.shot); });
+    const LB = LOOKBOOK.map(src => ({ src, cap: 'Comunidad Bearysad' }));
+    $('#lookbook-grid').innerHTML = LB.map((l, k) => `<button class="reveal" data-look="${k}"><img src="${l.src}" alt="Look Bearysad" loading="lazy"></button>`).join('');
+    $('#lookbook-grid').addEventListener('click', e => { const b = e.target.closest('[data-look]'); if (b) openLightbox(LB, +b.dataset.look); });
     observeReveals();
   </script>
 </body>

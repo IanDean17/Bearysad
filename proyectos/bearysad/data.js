@@ -71,33 +71,92 @@ const CATEGORIES = [
 ];
 
 // Beary Icons (fuente: bearysad.com/blogs/icons). Cada uno tiene su propia página con tema personalizado.
+// song.preview: preview oficial de 30 s (iTunes Search API). radio: true = el artista no tiene catálogo
+// disponible, así que suena un tema de la escena como "Bearysad Radio".
+const art = (u) => u.replace('100x100bb', '600x600bb');
+const BEAR_GIF = 'assets/bear.webp'; // GIF 3D de la marca, recortado y ampliado
 const ICONS = [
   { id: 'duki', name: 'Duki', handle: 'duki',
     image: 'https://bearysad.com/cdn/shop/articles/duko.jpg?v=1770434055&width=1600',
     theme: { accent: '#e63946', bg: '#120607' }, tagline: 'Archivo · Movistar Arena Chile · 06/09/25',
-    bio: 'Uno de los nombres más grandes del trap latino vistiendo Bearysad sobre el escenario del Movistar Arena en Santiago. Una foto de archivo que la marca guarda como uno de sus momentos clave de 2025.',
+    origin: 'Buenos Aires, Argentina', genre: 'Trap · Hip hop',
+    bio: [
+      'Mauro Ezequiel Lombardo, Duki, salió de las batallas de freestyle de El Quinto Escalón y en 2017 rompió todo con “She Don\'t Give a FO” junto a KHEA, la canción que abrió la puerta al trap argentino.',
+      'Hoy es uno de los nombres más grandes de la música urbana en español: discos como “Desde el Fin del Mundo” y “Ameri”, y estadios llenos a ambos lados del Atlántico. En su paso por el Movistar Arena de Santiago subió al escenario vistiendo Bearysad.',
+    ],
+    facts: [['Origen', 'Argentina'], ['Escena', 'Trap'], ['Hit', 'She Don\'t Give a FO'], ['Con Bearysad', 'Movistar Arena 2025']],
+    song: { title: 'She Don\'t Give a FO', artist: 'Duki & KHEA', year: 2017,
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/38/e4/00/38e400c8-18c9-e1e0-aa0b-aa21e4d8863c/mzaf_3891642908802927897.plus.aac.p.m4a',
+      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/70/92/96/70929633-cec2-561d-afa8-a19428055626/193483792392.jpg/100x100bb.jpg') },
     fit: ['multicamo-longsleeve', 'sunfade-blacktee', 'raven-blackhat'] },
   { id: 'pailita', name: 'Pailita', handle: 'pailita',
     image: 'https://bearysad.com/cdn/shop/articles/52fb9a5a-18fd-420b-be60-bd5d6f0fe793.jpg?v=1770433949&width=1600',
     theme: { accent: '#f5c518', bg: '#0f0d04' }, tagline: 'Música urbana chilena',
-    bio: 'Artista de la escena urbana chilena y parte de los Beary Icons. Su estilo cruza lo deportivo con lo callejero, la misma línea que define a la marca.',
+    origin: 'Santiago, Chile', genre: 'Urbano · Trap melódico',
+    bio: [
+      'Pailita es una de las voces que empujó la nueva ola urbana chilena. Su estilo melódico, entre el trap, el reggaetón y el R&B, lo llevó a lo más alto de las listas.',
+      'Con “Ultra Solo” junto a Polimá Westcoast (2022) se convirtió en un fenómeno: el tema sumó un remix con Feid, Paloma Mami y De La Ghetto. Su forma de vestir cruza lo deportivo con lo callejero, la misma línea que define a Bearysad.',
+    ],
+    facts: [['Origen', 'Chile'], ['Escena', 'Urbano'], ['Hit', 'Ultra Solo'], ['Año clave', '2022']],
+    song: { title: 'ULTRA SOLO', artist: 'Polimá Westcoast & Pailita', year: 2022,
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/61/4b/05614b95-d7f3-640c-624d-f58d200e38aa/mzaf_13684523389254606798.plus.aac.p.m4a',
+      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/86/bd/89/86bd890a-d31b-4a3b-7217-94090fa1ddcf/886449919413.jpg/100x100bb.jpg') },
     fit: ['3porciontee', 'truckerhat-icyyyy', 'icemix-longsleeve'] },
   { id: 'zellwow', name: 'Zellwow', handle: 'zellwow',
     image: 'https://bearysad.com/cdn/shop/articles/ICON1.jpg?v=1770434072&width=1600',
     theme: { accent: '#7bdff2', bg: '#05101a' }, tagline: 'Beary Icon · Portada de la marca',
-    bio: 'La cara que abre la sección de íconos en el sitio oficial de Bearysad. Un referente de cómo se lleva la marca: oversize, capas y actitud.',
+    origin: 'Nueva escena', genre: 'Trap melódico · Alternativo',
+    bio: [
+      'Zellwow es parte de la nueva generación de la escena urbana, con un sonido que juega entre el trap melódico y lo alternativo. En 2026 lanzó “i wonder” y colaboró con ccrepost en “violenta”.',
+      'Es la cara que abre la sección de íconos en el sitio oficial de Bearysad: oversize, capas y actitud, un referente de cómo se lleva la marca.',
+    ],
+    facts: [['Escena', 'Nueva ola'], ['Último tema', 'i wonder'], ['Año', '2026'], ['En Bearysad', 'Portada Icons']],
+    song: { title: 'i wonder', artist: 'zellwow', year: 2026,
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/36/20/03/362003ce-d014-2cf5-3e1c-ca1b9acd494f/mzaf_17328616906869407332.plus.aac.p.m4a',
+      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/94/b8/2d/94b82d08-0f6b-546d-a6ea-25cddb1f8e22/artwork.jpg/100x100bb.jpg') },
     fit: ['icemix-longsleeve', 'unibearsitee', 'white-ravenhat'] },
-  { id: 'richboywest', name: 'Richboywest', handle: 'richboywest + mont.pantoja',
+  { id: 'richboywest', name: 'Richboywest', handle: 'richboywest',
     image: 'https://bearysad.com/cdn/shop/articles/ICON8.png?v=1770434034&width=1600',
     theme: { accent: '#9b5de5', bg: '#0d0614' }, tagline: 'Junto a @mont.pantoja',
-    bio: 'Una dupla que la marca destacó entre sus íconos: dos estilos distintos con la misma pieza en común, Bearysad.',
+    origin: 'Escena urbana', genre: 'Trap · Street',
+    bio: [
+      'Una dupla que la marca destacó entre sus íconos: Richboywest junto a @mont.pantoja. Dos estilos distintos con una pieza en común, Bearysad.',
+      'Su look mezcla prendas oscuras de la línea Raven con básicos pesados: la prueba de que la marca funciona igual en solitario que en crew.',
+    ],
+    facts: [['Formato', 'Dupla'], ['Junto a', '@mont.pantoja'], ['Línea', 'Raven'], ['Vibra', 'Crew']],
+    song: { radio: true, title: 'ULTRA SOLO', artist: 'Polimá Westcoast & Pailita', year: 2022,
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/61/4b/05614b95-d7f3-640c-624d-f58d200e38aa/mzaf_13684523389254606798.plus.aac.p.m4a',
+      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/86/bd/89/86bd890a-d31b-4a3b-7217-94090fa1ddcf/886449919413.jpg/100x100bb.jpg') },
     fit: ['longsleeve-raven', 'truckerhat-raven', 'tee'] },
   { id: 'randynotagram', name: 'Randynotagram', handle: 'randynotagram',
     image: 'https://bearysad.com/cdn/shop/articles/ICON11.jpg?v=1770433989&width=1600',
     theme: { accent: '#80b918', bg: '#081005' }, tagline: 'Beary Icon',
-    bio: 'Parte de la familia de íconos de Bearysad. Camuflado, piezas holgadas y accesorios: la fórmula de la temporada.',
+    origin: 'Escena urbana', genre: 'Trap · Street',
+    bio: [
+      'Parte de la familia de íconos de Bearysad. Camuflado, piezas holgadas y accesorios: la fórmula exacta de la temporada.',
+      'Su fit es el que más se repite en la calle: Multicamo de pies a cabeza con un toque de color en el baby tee.',
+    ],
+    facts: [['Estilo', 'Camo total'], ['Pieza clave', 'Multicamo'], ['Temporada', '2026'], ['Vibra', 'Calle']],
+    song: { radio: true, title: 'She Don\'t Give a FO', artist: 'Duki & KHEA', year: 2017,
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/38/e4/00/38e400c8-18c9-e1e0-aa0b-aa21e4d8863c/mzaf_3891642908802927897.plus.aac.p.m4a',
+      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/70/92/96/70929633-cec2-561d-afa8-a19428055626/193483792392.jpg/100x100bb.jpg') },
     fit: ['multicamo-truckerhat', 'multicamo-longsleeve', '4-stripes-babyblacktee'] },
 ];
 
+// Campaña "Summertime & Icecream" (fotos del Drive de la marca, optimizadas en assets/campaign).
+const COLLECTION = 'Summertime & Icecream';
+const CAMPAIGN = [
+  ['6737', 'Kiosco'], ['6865', 'Raven'], ['6926', 'Almacén'], ['6658', 'Persiana'], ['6708', 'Esquina'],
+  ['6777', 'Trenzas'], ['6747', 'Multicamo'], ['6669', 'Brown tee'], ['6785', 'Sunfade'], ['6916', 'Crew'],
+  ['6724', 'Calle'], ['6805', 'Wall'], ['6767', 'Duo'], ['6871', 'Close-up'], ['6911', 'Squad'], ['6607', 'Bloque'],
+  ['6687', 'Black 24'], ['6898', 'Escena'],
+].map(([f, cap]) => ({ src: `assets/campaign/${f}.jpg`, cap }));
+
 // Fotos de la comunidad (imágenes aportadas por el dueño del portafolio).
 const LOOKBOOK = ['1.png', '2.png', '3.png', '4.png', '6.png', '7.png', '8.png'].map(f => `assets/lookbook/${f}`);
+
+// Códigos de descuento de la demo y datos de despacho.
+const PROMOS = { BEARY10: { pct: 10, label: '10% Beary' }, ICONS15: { pct: 15, label: '15% Icons' } };
+const FREE_SHIPPING = 50000;
+const SHIPPING = { domicilio: { label: 'Despacho a domicilio', price: 3990, eta: 4 }, express: { label: 'Express (RM)', price: 6990, eta: 1 }, retiro: { label: 'Retiro en showroom', price: 0, eta: 2 } };
+const REGIONES = ['Arica y Parinacota', 'Tarapacá', 'Antofagasta', 'Atacama', 'Coquimbo', 'Valparaíso', 'Metropolitana', "O'Higgins", 'Maule', 'Ñuble', 'Biobío', 'La Araucanía', 'Los Ríos', 'Los Lagos', 'Aysén', 'Magallanes'];
