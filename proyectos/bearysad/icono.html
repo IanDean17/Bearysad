@@ -33,8 +33,7 @@
     document.body.style.setProperty('--icon-bg', icon.theme.bg);
 
     $('#icon').innerHTML = `
-      <section class="icon-hero">
-        <div class="bg-name">${icon.name}</div>
+      <section class="icon-hero" style="--len:${icon.name.length}">
         <div class="photo">
           <img src="${icon.image}" alt="${icon.name} vistiendo Bearysad">
           <img class="dancer" src="${BEAR_GIF}" alt="">
@@ -45,6 +44,7 @@
           <span class="handle">${icon.tagline}</span>
           <div id="player"></div>
           <div class="ctas"><a class="btn" href="#fit">Comprar el fit →</a><a class="btn ghost" href="#quien">¿Quién es?</a></div>
+          <div class="bg-name" aria-hidden="true">${icon.name}</div>
         </div>
       </section>
 

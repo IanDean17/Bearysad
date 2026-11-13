@@ -169,8 +169,7 @@ footer.foot a:hover { color: var(--fg); }
 
 /* ===== Página de ícono ===== */
 body.icon-page { --accent: var(--icon-accent, #f5c518); background: var(--icon-bg, #0b0b0b); }
-.icon-hero { position: relative; min-height: calc(100vh - 64px); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-.icon-hero .bg-name { position: absolute; inset: auto 0 -0.12em 0; font-family: Anton; font-size: 26vw; line-height: .8; text-transform: uppercase; color: transparent; -webkit-text-stroke: 1px var(--accent); opacity: .25; white-space: nowrap; pointer-events: none; }
+.icon-hero { position: relative; min-height: calc(100vh - 64px); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; overflow: clip; }
 .icon-hero .photo { position: relative; }
 .icon-hero .photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 .icon-hero .photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, var(--icon-bg, #0b0b0b)); }
@@ -216,7 +215,7 @@ section[id], #fit, #quien { scroll-margin-top: 72px; }
 @media (max-width: 900px) { .hero-bear { left: auto; right: 16px; bottom: -40px; width: 96px !important; } .hero-imgs { height: 70vh; } }
 
 /* ---------- Beary Icons: escenario ---------- */
-.icons-stage { --c: var(--accent); --stage-bg: #0b0b0b; background: radial-gradient(1200px 600px at 70% 40%, color-mix(in srgb, var(--c) 18%, transparent), transparent 70%), var(--stage-bg); transition: background .6s; overflow: hidden; }
+.icons-stage { --c: var(--accent); --stage-bg: #0b0b0b; background: radial-gradient(1200px 600px at 70% 40%, color-mix(in srgb, var(--c) 18%, transparent), transparent 70%), var(--stage-bg); transition: background .6s; overflow: hidden; overflow: clip; }
 .icons-stage .kicker { color: var(--c); transition: color .4s; }
 .stage { display: grid; grid-template-columns: 240px minmax(0, 1fr) minmax(0, 1.05fr); gap: 32px; align-items: stretch; }
 .roster { list-style: none; display: flex; flex-direction: column; gap: 6px; }
@@ -231,19 +230,12 @@ section[id], #fit, #quien { scroll-margin-top: 72px; }
 .roster button[aria-selected="true"] .nm { color: var(--c); }
 
 .stage-photo { position: relative; min-height: 560px; }
-.photo-frame { position: absolute; inset: 0; border-radius: 8px; overflow: hidden; background: #000; transform: scale(calc(1 + var(--beat, 0) * .025)); transition: transform .08s; }
+.photo-frame { position: absolute; inset: 0; border-radius: 8px; overflow: hidden; background: #000; }
+.photo-frame::before { content: ''; position: absolute; inset: 55% 0 0 0; background: linear-gradient(transparent, rgba(0,0,0,.75)); z-index: 1; pointer-events: none; }
 .photo-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.photo-frame .ph-r, .photo-frame .ph-b { mix-blend-mode: screen; opacity: 0; }
-.photo-frame .ph-r { filter: sepia(1) saturate(8) hue-rotate(-50deg); }
-.photo-frame .ph-b { filter: sepia(1) saturate(8) hue-rotate(180deg); }
-.is-playing .photo-frame .ph-r { opacity: .35; animation: glitchR 1.6s steps(2) infinite; }
-.is-playing .photo-frame .ph-b { opacity: .35; animation: glitchB 1.3s steps(2) infinite; }
-@keyframes glitchR { 0%,100% { transform: translate(0); } 20% { transform: translate(-6px, 2px); } 60% { transform: translate(4px, -2px); } }
-@keyframes glitchB { 0%,100% { transform: translate(0); } 30% { transform: translate(6px, -3px); } 70% { transform: translate(-3px, 2px); } }
-.photo-frame .scan { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px 4px); opacity: 0; transition: opacity .3s; pointer-events: none; }
-.is-playing .photo-frame .scan { opacity: 1; }
 .photo-frame::after { content: ''; position: absolute; inset: 0; border: 2px solid var(--c); border-radius: 8px; opacity: .8; pointer-events: none; }
-.stage-photo .bg-name { position: absolute; left: -12px; right: -12px; bottom: -18px; font-family: Anton; text-transform: uppercase; font-size: clamp(56px, 7vw, 120px); line-height: .8; color: var(--c); mix-blend-mode: difference; white-space: nowrap; overflow: hidden; pointer-events: none; }
+.stage-photo { container-type: inline-size; }
+.stage-photo .bg-name { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; font-family: Anton; text-transform: uppercase; font-size: min(96px, calc((100cqw - 40px) / (var(--len, 6) * .5))); line-height: .9; color: var(--c); white-space: nowrap; pointer-events: none; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
 .dancer { position: absolute; width: 110px; right: -28px; top: -34px; z-index: 3; filter: drop-shadow(0 8px 20px rgba(0,0,0,.6)); transform: rotate(8deg) scale(calc(1 + var(--beat, 0) * .35)); transition: transform .08s; pointer-events: none; }
 .is-playing .dancer { animation: dance .5s ease-in-out infinite alternate; }
 @keyframes dance { from { rotate: -10deg; } to { rotate: 12deg; } }
@@ -252,7 +244,7 @@ section[id], #fit, #quien { scroll-margin-top: 72px; }
 .stage-photo.swap .photo-frame { animation: swapIn .6s cubic-bezier(.2,.8,.2,1); }
 .stage-photo.swap .bg-name { animation: slideName .7s cubic-bezier(.2,.8,.2,1); }
 @keyframes swapIn { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes slideName { from { transform: translateX(-30%); opacity: 0; } }
+@keyframes slideName { from { transform: translateY(30%); opacity: 0; } }
 
 .stage-info { display: flex; flex-direction: column; gap: 16px; justify-content: center; }
 .stage-info > * { animation: fadeUp .5s both; }
@@ -457,3 +449,39 @@ section[id], #fit, #quien { scroll-margin-top: 72px; }
   .b-item .ph { grid-row: span 2; }
   .b-buy { flex-direction: column; align-items: stretch; } .b-buy .add { min-width: 0; width: 100%; }
 }
+
+/* Reproductor: volumen */
+.p-vol { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.v-btn { width: 28px; height: 28px; display: grid; place-items: center; font-size: 15px; border-radius: 50%; flex: none; }
+.v-btn:hover { background: rgba(255,255,255,.08); }
+.v-range { -webkit-appearance: none; appearance: none; flex: 1; max-width: 160px; height: 4px; border-radius: 4px; cursor: pointer;
+  background: linear-gradient(90deg, var(--c) var(--v, 80%), rgba(255,255,255,.14) var(--v, 80%)); }
+.v-range::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid var(--c); }
+.v-range::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid var(--c); }
+.v-num { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 22px; }
+
+/* Reproductor con video oficial */
+.player { flex-direction: column; align-items: stretch; gap: 12px; }
+.p-video { position: relative; aspect-ratio: 16/9; min-height: 200px; border-radius: 8px; overflow: hidden; background: #000; }
+.p-frame, .p-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.p-poster { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; }
+.p-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .3s, transform .5s; }
+.p-poster:hover img { opacity: 1; transform: scale(1.03); }
+.big-play { position: relative; width: 64px; height: 64px; border-radius: 50%; background: var(--c); color: #000; display: grid; place-items: center; font-size: 22px; box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .2s; }
+.p-poster:hover .big-play { transform: scale(1.1); }
+.p-video.live .p-poster { display: none; }
+.p-head { display: flex; gap: 12px; align-items: center; }
+.p-head .vinyl { width: 52px; height: 52px; animation-duration: 2.4s; }
+.p-head .vinyl img { width: 56%; height: 56%; }
+.p-head .vinyl::after { display: none; }
+.p-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.p-vol { margin-top: 0; }
+
+/* Página de ícono: columnas parejas y nombres que caben en su columna */
+.icon-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.icon-hero .info { container-type: inline-size; }
+.icon-hero h1 { font-size: min(160px, calc(100cqw / (var(--len, 6) * .5))); }
+.icon-hero .info .bg-name { font-family: Anton; text-transform: uppercase; line-height: .85; white-space: nowrap; color: transparent;
+  -webkit-text-stroke: 1px var(--accent); opacity: .3; pointer-events: none; margin-top: 8px;
+  font-size: min(140px, calc(100cqw / (var(--len, 6) * .5))); }
+@media (max-width: 860px) { .icon-hero { grid-template-columns: 1fr; } }

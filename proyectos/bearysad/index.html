@@ -130,10 +130,8 @@
       $('#stage-photo').innerHTML = `
         <div class="photo-frame">
           <img class="ph-main" src="${i.image}" alt="${i.name} vistiendo Bearysad">
-          <img class="ph-r" src="${i.image}" alt=""><img class="ph-b" src="${i.image}" alt="">
-          <span class="scan"></span>
         </div>
-        <div class="bg-name">${i.name}</div>
+        <div class="bg-name" style="--len:${i.name.length}">${i.name}</div>
         <img class="dancer" src="${BEAR_GIF}" alt="Oso Bearysad bailando">
         <span class="sticker">Beary Icon<br><b>${String(k + 1).padStart(2, '0')}/${String(ICONS.length).padStart(2, '0')}</b></span>`;
       $('#stage-info').innerHTML = `

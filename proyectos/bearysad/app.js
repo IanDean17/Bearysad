@@ -279,74 +279,104 @@ document.addEventListener('input', e => {
   else if (co.errors[name]) { delete co.errors[name]; e.target.closest('.field').classList.remove('err'); e.target.nextElementSibling?.remove(); }
 });
 
-/* ================= Reproductor (preview 30 s + visualizador) ================= */
+/* ================= Reproductor: video oficial (YouTube IFrame API) + volumen ================= */
+// song.yt: id del video oficial · song.start: segundo donde entra la parte del artista.
+// El video se muestra dentro de la tarjeta (mín. 200 px de alto, como pide YouTube) y se crea al dar play.
+let ytReady = null;
+function loadYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise(res => {
+    if (window.YT?.Player) return res();
+    window.onYouTubeIframeAPIReady = res;
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+  });
+  return ytReady;
+}
 const Player = {
-  audio: Object.assign(new Audio(), { crossOrigin: 'anonymous', preload: 'none' }),
-  icon: null, ctx: null, an: null, buf: null, raf: 0,
+  icon: null, yt: null, root: null, playing: false, timer: 0, wantPlay: false,
+  vol: Math.min(1, Math.max(0, +store.get('bearysad-vol', .8))), muted: false,
+  get start() { return this.icon?.song.start || 0; },
   html(icon) {
-    const s = icon.song;
+    const s = icon.song, v = this.muted ? 0 : this.vol;
     return `<div class="player" data-player style="--c:${icon.theme.accent}">
-      <button class="vinyl" data-play aria-label="Reproducir ${esc(s.title)}"><img src="${s.cover}" alt="Portada ${esc(s.title)}"><span class="hole"></span></button>
-      <div class="p-body">
-        <span class="p-label">${s.radio ? 'Bearysad Radio · suena en la tienda' : `Suena ${icon.name}`}</span>
-        <strong class="p-title">${esc(s.title)}</strong>
-        <span class="p-artist">${esc(s.artist)} · ${s.year}</span>
-        <canvas class="viz" width="360" height="56" aria-hidden="true"></canvas>
-        <div class="p-ctrl"><button class="p-play" data-play aria-label="Reproducir"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
-          <div class="p-bar" data-seek><i></i></div><span class="p-time">0:00 / 0:30</span></div>
-      </div></div>`;
+      <div class="p-video"><button class="p-poster" data-play aria-label="Reproducir ${esc(s.title)}">
+        <img src="https://i.ytimg.com/vi/${s.yt}/hqdefault.jpg" alt=""><span class="big-play">▶</span></button><div class="p-frame"></div></div>
+      <div class="p-head">
+        <span class="vinyl" aria-hidden="true"><img src="https://i.ytimg.com/vi/${s.yt}/mqdefault.jpg" alt=""><span class="hole"></span></span>
+        <div class="p-meta"><span class="p-label">${s.pick ? `El tema de ${icon.name}` : `Suena ${icon.name}`}</span>
+          <strong class="p-title">${esc(s.title)}</strong><span class="p-artist">${esc(s.artist)}${s.year ? ' · ' + s.year : ''}</span></div>
+      </div>
+      <div class="p-ctrl"><button class="p-play" data-play aria-label="Reproducir o pausar"><span class="i-play">▶</span><span class="i-pause">❚❚</span></button>
+        <div class="p-bar" data-seek><i></i></div><span class="p-time">${fmt(0)} / --:--</span></div>
+      <div class="p-vol"><button class="v-btn" data-mute aria-label="Silenciar o activar sonido">${this.volIcon()}</button>
+        <input type="range" class="v-range" data-vol min="0" max="1" step="0.01" value="${v}" aria-label="Volumen" style="--v:${v * 100}%">
+        <span class="v-num">${Math.round(v * 100)}</span></div>
+    </div>`;
   },
+  volIcon() { const v = this.muted ? 0 : this.vol; return v === 0 ? '🔇' : v < .5 ? '🔉' : '🔊'; },
   mount(root, icon, autoplay) {
-    const was = !this.audio.paused;
+    const was = this.playing;
+    this.destroy();
+    this.icon = icon; this.root = root;
     root.innerHTML = this.html(icon);
-    if (this.icon !== icon) { this.audio.pause(); this.audio.src = icon.song.preview; this.icon = icon; }
     this.sync();
     if (autoplay && was) this.play();
   },
-  setup() {
-    if (this.ctx) return;
-    try {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const src = this.ctx.createMediaElementSource(this.audio);
-      this.an = this.ctx.createAnalyser(); this.an.fftSize = 64; this.an.smoothingTimeConstant = .8;
-      src.connect(this.an); this.an.connect(this.ctx.destination);
-      this.buf = new Uint8Array(this.an.frequencyBinCount);
-    } catch { this.ctx = null; }
-  },
-  play() { this.setup(); this.ctx?.resume(); this.audio.play().catch(() => toast('No se pudo reproducir el preview')); },
-  toggle() { this.audio.paused ? this.play() : this.audio.pause(); },
-  sync() {
-    const on = !this.audio.paused;
-    document.body.classList.toggle('is-playing', on);
-    $$('[data-player]').forEach(p => p.classList.toggle('playing', on));
-    cancelAnimationFrame(this.raf);
-    if (on) this.loop(); else document.documentElement.style.setProperty('--beat', 0);
-  },
-  loop() {
-    const a = this.audio, dur = a.duration || 30;
-    $$('[data-player]').forEach(p => {
-      $('.p-bar i', p).style.width = (a.currentTime / dur * 100) + '%';
-      $('.p-time', p).textContent = `${fmt(a.currentTime)} / ${fmt(dur)}`;
-      const cv = $('.viz', p), g = cv.getContext('2d'), c = getComputedStyle(p).getPropertyValue('--c').trim() || '#f5c518';
-      g.clearRect(0, 0, cv.width, cv.height);
-      const n = 28, w = cv.width / n;
-      for (let i = 0; i < n; i++) {
-        const v = this.an ? this.buf[Math.min(this.buf.length - 1, Math.floor(i * this.buf.length / n * .8))] / 255 : (Math.sin(Date.now() / 180 + i) + 1) / 3;
-        const h = Math.max(3, v * cv.height);
-        g.fillStyle = c; g.globalAlpha = .35 + v * .65;
-        g.fillRect(i * w + 1, cv.height - h, w - 3, h);
-      }
+  destroy() { clearInterval(this.timer); try { this.yt?.destroy(); } catch {} this.yt = null; this.playing = false; this.sync(); },
+  async create() {
+    await loadYT();
+    const frame = $('.p-frame', this.root), icon = this.icon;
+    if (!frame || this.yt) return;
+    $('.p-video', this.root).classList.add('live');
+    this.yt = new YT.Player(frame, {
+      videoId: icon.song.yt, width: '100%', height: '100%',
+      playerVars: { start: Math.floor(this.start), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, fs: 0, iv_load_policy: 3 },
+      events: {
+        onReady: e => { this.applyVol(); if (this.wantPlay) e.target.playVideo(); },
+        onStateChange: e => {
+          this.playing = e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.BUFFERING;
+          if (e.data === YT.PlayerState.ENDED) { this.yt.seekTo(this.start, true); this.yt.pauseVideo(); }
+          this.sync();
+        },
+        onError: () => toast('No se pudo cargar el video'),
+      },
     });
-    if (this.an) {
-      this.an.getByteFrequencyData(this.buf);
-      const bass = (this.buf[1] + this.buf[2] + this.buf[3]) / 765;
-      document.documentElement.style.setProperty('--beat', bass.toFixed(3));
-    }
-    this.raf = requestAnimationFrame(() => this.loop());
+  },
+  play() { this.wantPlay = true; if (this.yt?.playVideo) this.yt.playVideo(); else this.create(); },
+  pause() { this.wantPlay = false; this.yt?.pauseVideo?.(); },
+  toggle() { this.playing ? this.pause() : this.play(); },
+  seek(frac) {
+    const d = this.yt?.getDuration?.(); if (!d) return;
+    this.yt.seekTo(this.start + frac * (d - this.start), true); this.draw();
+  },
+  applyVol() {
+    const v = this.muted ? 0 : this.vol;
+    if (this.yt?.setVolume) { this.yt.setVolume(Math.round(v * 100)); v ? this.yt.unMute() : this.yt.mute(); }
+    $$('[data-player]').forEach(p => {
+      $('.v-btn', p).textContent = this.volIcon();
+      const r = $('.v-range', p); if (+r.value !== v) r.value = v; r.style.setProperty('--v', v * 100 + '%');
+      $('.v-num', p).textContent = Math.round(v * 100);
+    });
+  },
+  setVol(v) { this.vol = Math.min(1, Math.max(0, v)); this.muted = false; if (this.vol > 0) store.set('bearysad-vol', this.vol); this.applyVol(); },
+  toggleMute() { if (this.muted || this.vol === 0) { this.muted = false; if (!this.vol) this.vol = .8; } else this.muted = true; this.applyVol(); },
+  sync() {
+    document.body.classList.toggle('is-playing', this.playing);
+    $$('[data-player]').forEach(p => p.classList.toggle('playing', this.playing));
+    clearInterval(this.timer);
+    if (this.playing) this.timer = setInterval(() => this.draw(), 250);
+    this.draw();
+  },
+  draw() {
+    const d = this.yt?.getDuration?.() || 0, st = this.start, t = Math.max(0, (this.yt?.getCurrentTime?.() || st) - st), len = d ? d - st : 0;
+    $$('[data-player]').forEach(p => {
+      $('.p-bar i', p).style.width = len ? Math.min(100, t / len * 100) + '%' : '0%';
+      $('.p-time', p).textContent = `${fmt(t)} / ${len ? fmt(len) : '--:--'}`;
+    });
   },
 };
 const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-['play', 'pause', 'ended'].forEach(ev => Player.audio.addEventListener(ev, () => Player.sync()));
+document.addEventListener('input', e => { if (e.target.matches('[data-vol]')) Player.setVol(+e.target.value); });
 
 /* ================= Lightbox ================= */
 let lb = { list: [], i: 0 };
@@ -365,7 +395,8 @@ document.addEventListener('click', e => {
   const on = s => t.closest(s);
   let el;
   if ((el = on('[data-play]'))) return Player.toggle();
-  if ((el = on('[data-seek]'))) { const r = el.getBoundingClientRect(); const a = Player.audio; if (a.duration) a.currentTime = (e.clientX - r.left) / r.width * a.duration; return; }
+  if (on('[data-mute]')) return Player.toggleMute();
+  if ((el = on('[data-seek]'))) { const r = el.getBoundingClientRect(); return Player.seek(Math.min(1, Math.max(0, (e.clientX - r.left) / r.width))); }
   if ((el = on('.product[data-id]'))) return openProduct(el.dataset.id);
   if ((el = on('[data-img]'))) { state.imgIdx = +el.dataset.img; return renderModal(); }
   if ((el = on('[data-size]'))) { state.size = el.dataset.size; return renderModal(); }

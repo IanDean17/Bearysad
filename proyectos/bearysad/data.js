@@ -71,9 +71,8 @@ const CATEGORIES = [
 ];
 
 // Beary Icons (fuente: bearysad.com/blogs/icons). Cada uno tiene su propia página con tema personalizado.
-// song.preview: preview oficial de 30 s (iTunes Search API). radio: true = el artista no tiene catálogo
-// disponible, así que suena un tema de la escena como "Bearysad Radio".
-const art = (u) => u.replace('100x100bb', '600x600bb');
+// song: canción de cada artista (video oficial de YouTube). start = segundo donde entra su parte.
+// pick: true = tema de otro artista elegido para representarlo ("El tema de…").
 const BEAR_GIF = 'assets/bear.webp'; // GIF 3D de la marca, recortado y ampliado
 const ICONS = [
   { id: 'duki', name: 'Duki', handle: 'duki',
@@ -84,10 +83,8 @@ const ICONS = [
       'Mauro Ezequiel Lombardo, Duki, salió de las batallas de freestyle de El Quinto Escalón y en 2017 rompió todo con “She Don\'t Give a FO” junto a KHEA, la canción que abrió la puerta al trap argentino.',
       'Hoy es uno de los nombres más grandes de la música urbana en español: discos como “Desde el Fin del Mundo” y “Ameri”, y estadios llenos a ambos lados del Atlántico. En su paso por el Movistar Arena de Santiago subió al escenario vistiendo Bearysad.',
     ],
-    facts: [['Origen', 'Argentina'], ['Escena', 'Trap'], ['Hit', 'She Don\'t Give a FO'], ['Con Bearysad', 'Movistar Arena 2025']],
-    song: { title: 'She Don\'t Give a FO', artist: 'Duki & KHEA', year: 2017,
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/38/e4/00/38e400c8-18c9-e1e0-aa0b-aa21e4d8863c/mzaf_3891642908802927897.plus.aac.p.m4a',
-      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/70/92/96/70929633-cec2-561d-afa8-a19428055626/193483792392.jpg/100x100bb.jpg') },
+    facts: [['Origen', 'Argentina'], ['Escena', 'Trap'], ['Tema', 'Sudaca'], ['Con Bearysad', 'Movistar Arena 2025']],
+    song: { title: 'Sudaca', artist: 'Duki, Pablo Chill-E & Lucho SSJ', year: 2026, yt: 'Ci0hIM5nz9c', start: 10 },
     fit: ['multicamo-longsleeve', 'sunfade-blacktee', 'raven-blackhat'] },
   { id: 'pailita', name: 'Pailita', handle: 'pailita',
     image: 'https://bearysad.com/cdn/shop/articles/52fb9a5a-18fd-420b-be60-bd5d6f0fe793.jpg?v=1770433949&width=1600',
@@ -97,23 +94,19 @@ const ICONS = [
       'Pailita es una de las voces que empujó la nueva ola urbana chilena. Su estilo melódico, entre el trap, el reggaetón y el R&B, lo llevó a lo más alto de las listas.',
       'Con “Ultra Solo” junto a Polimá Westcoast (2022) se convirtió en un fenómeno: el tema sumó un remix con Feid, Paloma Mami y De La Ghetto. Su forma de vestir cruza lo deportivo con lo callejero, la misma línea que define a Bearysad.',
     ],
-    facts: [['Origen', 'Chile'], ['Escena', 'Urbano'], ['Hit', 'Ultra Solo'], ['Año clave', '2022']],
-    song: { title: 'ULTRA SOLO', artist: 'Polimá Westcoast & Pailita', year: 2022,
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/61/4b/05614b95-d7f3-640c-624d-f58d200e38aa/mzaf_13684523389254606798.plus.aac.p.m4a',
-      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/86/bd/89/86bd890a-d31b-4a3b-7217-94090fa1ddcf/886449919413.jpg/100x100bb.jpg') },
+    facts: [['Origen', 'Chile'], ['Escena', 'Urbano'], ['Tema', 'Dime Tú'], ['Hit', 'Ultra Solo']],
+    song: { title: 'Dime Tú', artist: 'Pailita ft. Cris MJ · Prod. Big Cvyu', year: 2022, yt: 'hNrqrmTWwEU', start: 88 },
     fit: ['3porciontee', 'truckerhat-icyyyy', 'icemix-longsleeve'] },
   { id: 'zellwow', name: 'Zellwow', handle: 'zellwow',
     image: 'https://bearysad.com/cdn/shop/articles/ICON1.jpg?v=1770434072&width=1600',
     theme: { accent: '#7bdff2', bg: '#05101a' }, tagline: 'Beary Icon · Portada de la marca',
     origin: 'Nueva escena', genre: 'Trap melódico · Alternativo',
     bio: [
-      'Zellwow es parte de la nueva generación de la escena urbana, con un sonido que juega entre el trap melódico y lo alternativo. En 2026 lanzó “i wonder” y colaboró con ccrepost en “violenta”.',
+      'Zellwow es parte de la nueva generación de la escena urbana, con un sonido que juega entre el trap melódico y lo alternativo. En 2026 lanzó “wake up” y “i wonder”, y colaboró con ccrepost en “violenta”.',
       'Es la cara que abre la sección de íconos en el sitio oficial de Bearysad: oversize, capas y actitud, un referente de cómo se lleva la marca.',
     ],
-    facts: [['Escena', 'Nueva ola'], ['Último tema', 'i wonder'], ['Año', '2026'], ['En Bearysad', 'Portada Icons']],
-    song: { title: 'i wonder', artist: 'zellwow', year: 2026,
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/36/20/03/362003ce-d014-2cf5-3e1c-ca1b9acd494f/mzaf_17328616906869407332.plus.aac.p.m4a',
-      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/94/b8/2d/94b82d08-0f6b-546d-a6ea-25cddb1f8e22/artwork.jpg/100x100bb.jpg') },
+    facts: [['Escena', 'Nueva ola'], ['Tema', 'wake up'], ['Año', '2026'], ['En Bearysad', 'Portada Icons']],
+    song: { title: 'wake up', artist: 'Zell', year: 2026, yt: 'Gfy2uy8r1J8', start: 0 },
     fit: ['icemix-longsleeve', 'unibearsitee', 'white-ravenhat'] },
   { id: 'richboywest', name: 'Richboywest', handle: 'richboywest',
     image: 'https://bearysad.com/cdn/shop/articles/ICON8.png?v=1770434034&width=1600',
@@ -123,10 +116,8 @@ const ICONS = [
       'Una dupla que la marca destacó entre sus íconos: Richboywest junto a @mont.pantoja. Dos estilos distintos con una pieza en común, Bearysad.',
       'Su look mezcla prendas oscuras de la línea Raven con básicos pesados: la prueba de que la marca funciona igual en solitario que en crew.',
     ],
-    facts: [['Formato', 'Dupla'], ['Junto a', '@mont.pantoja'], ['Línea', 'Raven'], ['Vibra', 'Crew']],
-    song: { radio: true, title: 'ULTRA SOLO', artist: 'Polimá Westcoast & Pailita', year: 2022,
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/05/61/4b/05614b95-d7f3-640c-624d-f58d200e38aa/mzaf_13684523389254606798.plus.aac.p.m4a',
-      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/86/bd/89/86bd890a-d31b-4a3b-7217-94090fa1ddcf/886449919413.jpg/100x100bb.jpg') },
+    facts: [['Formato', 'Dupla'], ['Junto a', '@mont.pantoja'], ['Tema', 'My Blood'], ['Línea', 'Raven']],
+    song: { pick: true, title: 'My Blood', artist: 'Polimá Westcoast ft. Pablo Chill-E', year: 2019, yt: 'bRMHBDOhxyc', start: 11 },
     fit: ['longsleeve-raven', 'truckerhat-raven', 'tee'] },
   { id: 'randynotagram', name: 'Randynotagram', handle: 'randynotagram',
     image: 'https://bearysad.com/cdn/shop/articles/ICON11.jpg?v=1770433989&width=1600',
@@ -136,10 +127,8 @@ const ICONS = [
       'Parte de la familia de íconos de Bearysad. Camuflado, piezas holgadas y accesorios: la fórmula exacta de la temporada.',
       'Su fit es el que más se repite en la calle: Multicamo de pies a cabeza con un toque de color en el baby tee.',
     ],
-    facts: [['Estilo', 'Camo total'], ['Pieza clave', 'Multicamo'], ['Temporada', '2026'], ['Vibra', 'Calle']],
-    song: { radio: true, title: 'She Don\'t Give a FO', artist: 'Duki & KHEA', year: 2017,
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview123/v4/38/e4/00/38e400c8-18c9-e1e0-aa0b-aa21e4d8863c/mzaf_3891642908802927897.plus.aac.p.m4a',
-      cover: art('https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/70/92/96/70929633-cec2-561d-afa8-a19428055626/193483792392.jpg/100x100bb.jpg') },
+    facts: [['Estilo', 'Camo total'], ['Pieza clave', 'Multicamo'], ['Tema', 'Fuera del Planeta'], ['Temporada', '2026']],
+    song: { title: 'Fuera Del Planeta', artist: 'Eloy ft. Randy', yt: 'LQPalS90uFo', start: 0 },
     fit: ['multicamo-truckerhat', 'multicamo-longsleeve', '4-stripes-babyblacktee'] },
 ];
 
